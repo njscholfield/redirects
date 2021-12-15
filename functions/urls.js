@@ -1,7 +1,7 @@
 export async function onRequestPost(context) {
     const data = JSON.parse(context.request.body);
 
-    const results = await data.forEach(obj => {
+    const results = await Promise.all(data.map(async obj => {
         try {
             const res = await fetch(obj.testURL);
             if(res.ok) {
@@ -12,7 +12,7 @@ export async function onRequestPost(context) {
         } catch {
             return { oldURL: obj.oldURL, status: 'ERROR' };
         }
-    })
+    }));
 
     return new Response(JSON.stringify(results));
 }
