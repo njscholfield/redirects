@@ -5,12 +5,12 @@ export async function onRequestPost(context) {
         try {
             const res = await fetch(obj.testURL);
             if(res.ok) {
-                return { oldURL: obj.oldURL, status: true };
+                return { oldURL: obj.oldURL, newURL: obj.testURL };
             } else {
-                return { oldURL: obj.oldURL, status: '' };
+                return { oldURL: obj.oldURL, newURL: '' };
             }
         } catch {
-            return { oldURL: obj.oldURL, status: 'ERROR' };
+            return { oldURL: obj.oldURL, newURL: 'ERROR' };
         }
     }));
 

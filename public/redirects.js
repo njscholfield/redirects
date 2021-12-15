@@ -21,7 +21,7 @@ class RedirectsForm extends HTMLElement {
             });
             if(response.ok) {
                 const json = await response.json();
-                console.log(json);
+                table.content = json;
             }
         } catch {
             alert('Error checking urls');
@@ -37,7 +37,6 @@ class ResultsTable extends HTMLElement {
     }
 
     set content(content) {
-        console.log(content)
         this.reset();
         content.forEach(row => this.addRow(row));
     }
