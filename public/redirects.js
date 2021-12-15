@@ -1,4 +1,5 @@
 const table = document.querySelector('results-table');
+const form = document.querySelector('redirects-form');
 
 class RedirectsForm extends HTMLElement {
     connectedCallback() {
@@ -6,10 +7,14 @@ class RedirectsForm extends HTMLElement {
         this.form.addEventListener('submit', e => this.submit(e));
     }
 
+    get externalDomain() {
+        return this.querySelector('#external-domain').value.trim();
+    }
+
     async submit(e) {
         e.preventDefault();
         const newDomain = this.querySelector('#new-url').value.trim();
-        const urls = this.querySelector('#links').value.split('\n');
+        const urls = this.querySelector('#links').value.trim().split('\n');
         const redirects = urls.map(url => {  return { oldURL: url.trim(), testURL: newDomain + url.trim() }; });
 
         try {
@@ -26,7 +31,6 @@ class RedirectsForm extends HTMLElement {
         } catch {
             alert('Error checking urls');
         }
-        table.content = redirects;
     }
 }
 customElements.define('redirects-form', RedirectsForm);
@@ -34,6 +38,7 @@ customElements.define('redirects-form', RedirectsForm);
 class ResultsTable extends HTMLElement {
     connectedCallback() {
         this.tbody = this.querySelector('tbody');
+        this.querySelector('#btn-copy-urls').addEventListener('click', e => this.copyNewURLs(e));
     }
 
     set content(content) {
@@ -44,8 +49,23 @@ class ResultsTable extends HTMLElement {
     async addRow(promise) {
         const details = await promise;
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${details.oldURL}</td><td>${details.newURL}</td>`;
+        let newURL = '';
+        if(details.valid) {
+            newURL = (form.externalDomain) ? form.externalDomain + details.oldURL : 'SAME';
+        }
+        tr.innerHTML = `<td class="old-url">${details.oldURL}</td><td class="new-url">${newURL}</td>`;
         this.tbody.appendChild(tr);
+    }
+
+    copyNewURLs(e) {
+        const btn = e.currentTarget;
+        const rows = [...this.tbody.querySelectorAll('tr')];
+        const newURLs = rows.reduce((str, row) => { return str + row.querySelector('.new-url').textContent + '\n'; }, '');
+        navigator.clipboard.writeText(newURLs)
+            .then(() => {
+                btn.textContent = 'Copied!';
+                setTimeout(() => { document.querySelector('#btn-copy-urls').textContent = 'Copy'; }, 2000);
+            });
     }
 
     reset() {

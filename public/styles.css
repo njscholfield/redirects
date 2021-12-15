@@ -11,4 +11,9 @@
     td {
         color: white;
     }
+
+    .title {
+        font-weight: bold;
+        margin-top: 1rem;
+    }
 }

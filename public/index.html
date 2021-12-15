@@ -12,16 +12,20 @@
     </head>
     <body>
         <div class="container">
-            <h1>Redirects</h1>
+            <h1 class="title">Redirects</h1>
             <redirects-form>
                 <form>
                     <div class="mb-3">
-                        <label class="form-label" for="links">Links</label>
+                        <label class="form-label" for="links">Links <small>(one per line)</small></label>
                         <textarea class="form-control" id="links" rows="5"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label" for="new-url">New URL</label>
-                        <input class="form-control" id="new-url" type="text">
+                        <label class="form-label" for="new-url">New URL <small>(where are these links live now)</small></label>
+                        <input class="form-control" id="new-url" type="text" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="new-url">External Domain? <small>(use if these links will be on another domain once launched)</small></label>
+                        <input class="form-control" id="external-domain" type="text">
                     </div>
                     <div class="mb-3">
                         <button class="btn btn-primary" type="submit">Run</button>
@@ -34,7 +38,7 @@
                     <thead>
                         <tr>
                             <th>Old URL</th>
-                            <th>New URL</th>
+                            <th>New URL <button class="btn btn-sm btn-primary ms-2" id="btn-copy-urls">Copy</button></th>
                         </tr>
                     </thead>
                     <tbody></tbody>
