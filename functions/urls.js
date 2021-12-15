@@ -1,5 +1,5 @@
 export async function onRequestPost(context) {
-    const data = JSON.parse(context.request.body);
+    const data = await context.request.json();
 
     const results = await Promise.all(data.map(async obj => {
         try {
