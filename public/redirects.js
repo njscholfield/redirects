@@ -13,7 +13,7 @@ class RedirectsForm extends HTMLElement {
         const redirects = urls.map(url => {  return { oldURL: url.trim(), testURL: newDomain + url.trim() }; });
 
         try {
-            const response = await fetch('urls', { 
+            const response = await fetch('/urls', { 
                 method: 'POST',
                 body: JSON.stringify(redirects),
                 headers: { 'Content-Type': 'application/json' }
