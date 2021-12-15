@@ -16,7 +16,8 @@ class RedirectsForm extends HTMLElement {
             const response = await fetch('/urls', { 
                 method: 'POST',
                 body: JSON.stringify(redirects),
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include'
             });
             if(response.ok) {
                 const json = await response.json();
