@@ -44,7 +44,7 @@ class ResultsTable extends HTMLElement {
     async addRow(promise) {
         const details = await promise;
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${details.old}</td><td>${details.new}</td>`;
+        tr.innerHTML = `<td>${details.oldURL}</td><td>${details.newURL}</td>`;
         this.tbody.appendChild(tr);
     }
 
